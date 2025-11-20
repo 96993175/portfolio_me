@@ -422,74 +422,116 @@ export default function About() {
         </div>
       </div>
 
-      {/* SVG Wave Transition */}
+      {/* Enhanced Premium Wave Transition */}
       <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none" style={{ transform: 'translateY(1px)' }}>
         <svg
           className="relative block w-full"
-          style={{ height: '150px' }}
-          viewBox="0 0 1200 120"
+          style={{ height: '180px', willChange: 'transform' }}
+          viewBox="0 0 1440 180"
           preserveAspectRatio="none"
         >
           <defs>
-            <linearGradient id="waveGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+            {/* Layer 1 Gradient - Bottom Foundation */}
+            <linearGradient id="layer1Gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style={{ stopColor: '#581c87', stopOpacity: 1 }} />
+              <stop offset="100%" style={{ stopColor: '#581c87', stopOpacity: 1 }} />
+            </linearGradient>
+
+            {/* Layer 2 Gradient - Middle Blend */}
+            <linearGradient id="layer2Gradient" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" style={{ stopColor: '#0f172a', stopOpacity: 1 }} />
-              <stop offset="50%" style={{ stopColor: '#1e293b', stopOpacity: 1 }} />
+              <stop offset="33%" style={{ stopColor: '#1e293b', stopOpacity: 1 }} />
+              <stop offset="66%" style={{ stopColor: '#581c87', stopOpacity: 1 }} />
               <stop offset="100%" style={{ stopColor: '#0f172a', stopOpacity: 1 }} />
             </linearGradient>
-            <linearGradient id="waveGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" style={{ stopColor: '#1e1b4b', stopOpacity: 1 }} />
-              <stop offset="50%" style={{ stopColor: '#581c87', stopOpacity: 1 }} />
-              <stop offset="100%" style={{ stopColor: '#0f172a', stopOpacity: 1 }} />
+
+            {/* Layer 3 Gradient - Top Neon Accent */}
+            <linearGradient id="layer3Gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style={{ stopColor: '#06b6d4', stopOpacity: 1 }} />
+              <stop offset="50%" style={{ stopColor: '#8b5cf6', stopOpacity: 1 }} />
+              <stop offset="100%" style={{ stopColor: '#3b82f6', stopOpacity: 1 }} />
             </linearGradient>
+
+            {/* Premium Glow Filters */}
+            <filter id="neonGlow">
+              <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+
+            <filter id="softGlow">
+              <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
           </defs>
 
+          {/* Layer 1 - Bottom Foundation (Purple-800) */}
           <path
-            d="M0,48 C240,96 480,96 720,48 C960,0 1200,0 1200,48 L1200,120 L0,120 Z"
-            fill="url(#waveGradient2)"
-            opacity="0.5"
-          >
-            <animate
-              attributeName="d"
-              dur="10s"
-              repeatCount="indefinite"
-              values="
-                M0,48 C240,96 480,96 720,48 C960,0 1200,0 1200,48 L1200,120 L0,120 Z;
-                M0,72 C240,24 480,24 720,72 C960,120 1200,120 1200,72 L1200,120 L0,120 Z;
-                M0,48 C240,96 480,96 720,48 C960,0 1200,0 1200,48 L1200,120 L0,120 Z
-              "
-            />
-          </path>
-
-          <path
-            d="M0,64 C300,96 600,32 900,64 C1050,80 1200,48 1200,64 L1200,120 L0,120 Z"
-            fill="url(#waveGradient1)"
-            opacity="0.7"
+            d="M0,80 Q240,40 480,80 T960,80 T1440,80 L1440,180 L0,180 Z"
+            fill="url(#layer1Gradient)"
+            opacity="0.9"
+            style={{ willChange: 'transform' }}
           >
             <animate
               attributeName="d"
               dur="8s"
               repeatCount="indefinite"
               values="
-                M0,64 C300,96 600,32 900,64 C1050,80 1200,48 1200,64 L1200,120 L0,120 Z;
-                M0,48 C300,16 600,80 900,48 C1050,32 1200,64 1200,48 L1200,120 L0,120 Z;
-                M0,64 C300,96 600,32 900,64 C1050,80 1200,48 1200,64 L1200,120 L0,120 Z
+                M0,80 Q240,40 480,80 T960,80 T1440,80 L1440,180 L0,180 Z;
+                M0,100 Q240,60 480,100 T960,100 T1440,100 L1440,180 L0,180 Z;
+                M0,90 Q240,130 480,90 T960,90 T1440,90 L1440,180 L0,180 Z;
+                M0,80 Q240,40 480,80 T960,80 T1440,80 L1440,180 L0,180 Z
               "
+              begin="0s"
             />
           </path>
 
+          {/* Layer 2 - Middle Gradient Blend */}
           <path
-            d="M0,80 C320,112 640,48 960,80 C1080,96 1200,80 1200,80 L1200,120 L0,120 Z"
-            style={{ fill: '#1e1b4b' }}
+            d="M0,60 Q300,20 600,60 T1200,60 L1200,180 L0,180 Z"
+            fill="url(#layer2Gradient)"
+            opacity="0.7"
+            style={{ willChange: 'transform' }}
           >
             <animate
               attributeName="d"
-              dur="6s"
+              dur="10s"
               repeatCount="indefinite"
               values="
-                M0,80 C320,112 640,48 960,80 C1080,96 1200,80 1200,80 L1200,120 L0,120 Z;
-                M0,96 C320,64 640,96 960,64 C1080,48 1200,80 1200,96 L1200,120 L0,120 Z;
-                M0,80 C320,112 640,48 960,80 C1080,96 1200,80 1200,80 L1200,120 L0,120 Z
+                M0,60 Q300,20 600,60 T1200,60 L1200,180 L0,180 Z;
+                M0,40 Q300,80 600,40 T1200,40 L1200,180 L0,180 Z;
+                M0,75 Q300,35 600,75 T1200,75 L1200,180 L0,180 Z;
+                M0,60 Q300,20 600,60 T1200,60 L1200,180 L0,180 Z
               "
+              begin="0.5s"
+            />
+          </path>
+
+          {/* Layer 3 - Top Neon Accent */}
+          <path
+            d="M0,40 Q360,10 720,40 T1440,40 L1440,180 L0,180 Z"
+            fill="url(#layer3Gradient)"
+            opacity="0.4"
+            filter="url(#neonGlow)"
+            style={{ willChange: 'transform' }}
+          >
+            <animate
+              attributeName="d"
+              dur="12s"
+              repeatCount="indefinite"
+              values="
+                M0,40 Q360,10 720,40 T1440,40 L1440,180 L0,180 Z;
+                M0,25 Q360,55 720,25 T1440,25 L1440,180 L0,180 Z;
+                M0,50 Q360,15 720,50 T1440,50 L1440,180 L0,180 Z;
+                M0,35 Q360,65 720,35 T1440,35 L1440,180 L0,180 Z;
+                M0,40 Q360,10 720,40 T1440,40 L1440,180 L0,180 Z
+              "
+              begin="1s"
             />
           </path>
         </svg>
