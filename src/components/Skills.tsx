@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Sphere, Html } from '@react-three/drei';
 import { gsap } from 'gsap';
@@ -45,7 +45,7 @@ function CoreOrb() {
 
 function SkillOrbit({ skill, index, total }: { skill: typeof skills[0]; index: number; total: number }) {
   const groupRef = useRef<THREE.Group>(null);
-  const [hovered, setHovered] = React.useState(false);
+  const [hovered, setHovered] = useState(false);
 
   useFrame((state) => {
     if (groupRef.current) {
@@ -95,29 +95,10 @@ function SkillOrbit({ skill, index, total }: { skill: typeof skills[0]; index: n
 export default function Skills() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(sectionRef.current, {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 80%',
-          end: 'bottom 20%',
-          toggleActions: 'play none none reverse',
-        },
-        opacity: 0,
-        scale: 0.8,
-        duration: 1.2,
-        ease: 'power3.out',
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen w-full py-20 px-4 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-950"
+      className="relative min-h-screen w-full py-12 px-4 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-950"
     >
       <div className="max-w-7xl mx-auto">
         <h2
@@ -141,7 +122,7 @@ export default function Skills() {
           </Canvas>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mt-8">
           {skills.map((skill, index) => {
             const Icon = skill.icon;
             return (
