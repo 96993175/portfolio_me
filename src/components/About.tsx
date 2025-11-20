@@ -421,6 +421,79 @@ export default function About() {
           </div>
         </div>
       </div>
+
+      {/* SVG Wave Transition */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none" style={{ transform: 'translateY(1px)' }}>
+        <svg
+          className="relative block w-full"
+          style={{ height: '150px' }}
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <linearGradient id="waveGradient1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style={{ stopColor: '#0f172a', stopOpacity: 1 }} />
+              <stop offset="50%" style={{ stopColor: '#1e293b', stopOpacity: 1 }} />
+              <stop offset="100%" style={{ stopColor: '#0f172a', stopOpacity: 1 }} />
+            </linearGradient>
+            <linearGradient id="waveGradient2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style={{ stopColor: '#1e1b4b', stopOpacity: 1 }} />
+              <stop offset="50%" style={{ stopColor: '#581c87', stopOpacity: 1 }} />
+              <stop offset="100%" style={{ stopColor: '#0f172a', stopOpacity: 1 }} />
+            </linearGradient>
+          </defs>
+
+          <path
+            d="M0,48 C240,96 480,96 720,48 C960,0 1200,0 1200,48 L1200,120 L0,120 Z"
+            fill="url(#waveGradient2)"
+            opacity="0.5"
+          >
+            <animate
+              attributeName="d"
+              dur="10s"
+              repeatCount="indefinite"
+              values="
+                M0,48 C240,96 480,96 720,48 C960,0 1200,0 1200,48 L1200,120 L0,120 Z;
+                M0,72 C240,24 480,24 720,72 C960,120 1200,120 1200,72 L1200,120 L0,120 Z;
+                M0,48 C240,96 480,96 720,48 C960,0 1200,0 1200,48 L1200,120 L0,120 Z
+              "
+            />
+          </path>
+
+          <path
+            d="M0,64 C300,96 600,32 900,64 C1050,80 1200,48 1200,64 L1200,120 L0,120 Z"
+            fill="url(#waveGradient1)"
+            opacity="0.7"
+          >
+            <animate
+              attributeName="d"
+              dur="8s"
+              repeatCount="indefinite"
+              values="
+                M0,64 C300,96 600,32 900,64 C1050,80 1200,48 1200,64 L1200,120 L0,120 Z;
+                M0,48 C300,16 600,80 900,48 C1050,32 1200,64 1200,48 L1200,120 L0,120 Z;
+                M0,64 C300,96 600,32 900,64 C1050,80 1200,48 1200,64 L1200,120 L0,120 Z
+              "
+            />
+          </path>
+
+          <path
+            d="M0,80 C320,112 640,48 960,80 C1080,96 1200,80 1200,80 L1200,120 L0,120 Z"
+            style={{ fill: '#1e1b4b' }}
+          >
+            <animate
+              attributeName="d"
+              dur="6s"
+              repeatCount="indefinite"
+              values="
+                M0,80 C320,112 640,48 960,80 C1080,96 1200,80 1200,80 L1200,120 L0,120 Z;
+                M0,96 C320,64 640,96 960,64 C1080,48 1200,80 1200,96 L1200,120 L0,120 Z;
+                M0,80 C320,112 640,48 960,80 C1080,96 1200,80 1200,80 L1200,120 L0,120 Z
+              "
+            />
+          </path>
+        </svg>
+      </div>
     </section>
   );
 }

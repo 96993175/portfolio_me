@@ -98,7 +98,7 @@ export default function Skills() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen w-full py-12 px-4 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-950"
+      className="relative min-h-screen w-full pt-24 pb-12 px-4 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-950"
     >
       <div className="max-w-7xl mx-auto">
         <h2
