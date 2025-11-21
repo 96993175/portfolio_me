@@ -305,9 +305,9 @@ export default function Contact() {
 
               <div className="space-y-2 md:space-y-3">
                 {[
-                  { icon: Mail, label: 'hello@future.dev', href: 'mailto:hello@future.dev' },
-                  { icon: Phone, label: '+1 (555) 123-4567', href: 'tel:+15551234567' },
-                  { icon: MapPin, label: 'San Francisco, CA' },
+                  { icon: Mail, label: 'dhairyashilshinde6715@gmail.com', href: 'dhairyashilshinde6715@gmail.com' },
+                  { icon: Phone, label: '+91 9699317520', href: 'tel:+919699317520' },
+                  { icon: MapPin, label: 'I2IT Collage, Hinjawadi Phase 1, Pune' },
                 ].map((contact, index) => {
                   const Icon = contact.icon;
                   return (
@@ -324,6 +324,24 @@ export default function Contact() {
                     </a>
                   );
                 })}
+              </div>
+
+              {/* LinkedIn Link */}
+              <div className="mt-6">
+                <a
+                  href="https://www.linkedin.com/in/dhairyashil-shinde-6a50b4314/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 p-4 rounded-xl backdrop-blur-lg bg-gradient-to-r from-blue-600/20 to-blue-500/20 border-2 border-blue-500/40 hover:border-blue-400/70 transition-all duration-300 group shadow-lg hover:shadow-blue-500/30 hover:scale-105"
+                >
+                  <Linkedin
+                    className="text-blue-400 group-hover:scale-110 transition-transform"
+                    size={24}
+                  />
+                  <span className="text-base md:text-lg font-semibold text-blue-300 group-hover:text-blue-200">
+                    Connect on LinkedIn
+                  </span>
+                </a>
               </div>
             </div>
             </div>
