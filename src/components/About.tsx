@@ -11,7 +11,6 @@ export default function About() {
   const statsRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const glowLineRef = useRef<HTMLDivElement>(null);
-  const particlesRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [displayedText, setDisplayedText] = useState('');
   const [hasStartedTyping, setHasStartedTyping] = useState(false);
@@ -200,23 +199,6 @@ export default function About() {
         });
       }
 
-      // Animated particles - slow floating motion
-      if (particlesRef.current) {
-        const particles = particlesRef.current.children;
-        Array.from(particles).forEach((particle, i) => {
-          gsap.to(particle, {
-            y: `random(-30, 30)`,
-            x: `random(-30, 30)`,
-            opacity: `random(0.1, 0.4)`,
-            duration: `random(8, 15)`,
-            repeat: -1,
-            yoyo: true,
-            ease: 'sine.inOut',
-            delay: i * 0.2,
-          });
-        });
-      }
-
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: 'top 70%',
@@ -247,47 +229,34 @@ export default function About() {
     <section
       id="about"
       ref={sectionRef}
-      className="relative min-h-screen w-full py-24 px-6 overflow-hidden"
+      className="relative w-full pt-24 pb-32 px-6 overflow-hidden"
       style={{ 
-        background: 'linear-gradient(180deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)',
+        background: 'linear-gradient(180deg, #0b1228 0%, #111a3a 50%, #1d2542 100%)',
+        minHeight: '120vh',
       }}
     >
+      {/* Grid background pattern */}
+      <div
+        className="absolute inset-0 opacity-5"
+        style={{
+          backgroundImage: `
+            linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, .05) 25%, rgba(255, 255, 255, .05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .05) 75%, rgba(255, 255, 255, .05) 76%, transparent 77%, transparent),
+            linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, .05) 25%, rgba(255, 255, 255, .05) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, .05) 75%, rgba(255, 255, 255, .05) 76%, transparent 77%, transparent)
+          `,
+          backgroundSize: '50px 50px',
+        }}
+      />
       {/* Canvas particle background */}
       <canvas
         ref={canvasRef}
         className="absolute inset-0 w-full h-full pointer-events-none"
-        style={{ opacity: 0.6 }}
+        style={{ opacity: 0.5 }}
       />
-
-      {/* Animated particle background - slow and faint */}
-      <div ref={particlesRef} className="absolute inset-0 pointer-events-none opacity-30 overflow-hidden">
-        {[...Array(25)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full"
-            style={{
-              width: `${Math.random() * 4 + 1}px`,
-              height: `${Math.random() * 4 + 1}px`,
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              background: i % 3 === 0 
-                ? 'rgba(6, 182, 212, 0.3)' 
-                : i % 3 === 1 
-                  ? 'rgba(139, 92, 246, 0.3)' 
-                  : 'rgba(59, 130, 246, 0.3)',
-              boxShadow: i % 2 === 0 
-                ? '0 0 10px rgba(6, 182, 212, 0.5)' 
-                : '0 0 10px rgba(139, 92, 246, 0.5)',
-              filter: 'blur(1px)',
-            }}
-          />
-        ))}
-      </div>
 
       {/* Soft background neon lights */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-20 left-20 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-20 right-20 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px]" />
+        <div className="absolute top-20 left-20 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] animate-pulse" style={{ animationDuration: '4s' }} />
+        <div className="absolute bottom-20 right-20 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px] animate-pulse" style={{ animationDuration: '6s', animationDelay: '2s' }} />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[100px]" />
       </div>
 
@@ -296,10 +265,10 @@ export default function About() {
         <div className="text-center mb-20">
           <h2
             ref={titleRef}
-            className="text-6xl md:text-7xl font-extrabold text-white mb-4 tracking-tight"
+            className="text-6xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 mb-4 tracking-tight"
             style={{ 
-              fontFamily: 'system-ui, -apple-system, sans-serif',
-              textShadow: '0 0 60px rgba(6, 182, 212, 0.3)',
+              textShadow: '0 0 60px rgba(6, 182, 212, 0.6), 0 0 100px rgba(125, 77, 255, 0.4)',
+              filter: 'drop-shadow(0 0 40px rgba(79, 195, 255, 0.5))',
             }}
           >
             About <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400">Me</span>
@@ -309,10 +278,10 @@ export default function About() {
           <div className="flex justify-center">
             <div 
               ref={glowLineRef}
-              className="w-24 h-0.5 rounded-full origin-center"
+              className="w-24 h-1 rounded-full origin-center"
               style={{
                 background: 'linear-gradient(90deg, rgba(6, 182, 212, 0), rgba(6, 182, 212, 1), rgba(139, 92, 246, 1), rgba(6, 182, 212, 0))',
-                boxShadow: '0 0 20px rgba(6, 182, 212, 0.8), 0 0 40px rgba(6, 182, 212, 0.4)',
+                boxShadow: '0 0 30px rgba(6, 182, 212, 1), 0 0 60px rgba(6, 182, 212, 0.6)',
               }}
             />
           </div>
@@ -420,6 +389,23 @@ export default function About() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Wave transition at the bottom */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden" style={{ lineHeight: 0 }}>
+        <svg
+          className="relative block w-full h-auto"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M0,0 C300,100 900,100 1200,0 L1200,120 L0,120 Z"
+            style={{
+              fill: '#0b1228',
+            }}
+          />
+        </svg>
       </div>
     </section>
   );

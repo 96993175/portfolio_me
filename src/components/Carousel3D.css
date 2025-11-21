@@ -1,0 +1,1145 @@
+/* ===========================
+   3D Orbital Carousel Styles
+   ========================== */
+
+.carousel-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Radial glow behind center card */
+.carousel-container::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(
+    circle,
+    rgba(99, 102, 241, 0.25) 0%,
+    rgba(139, 92, 246, 0.18) 30%,
+    rgba(6, 182, 212, 0.12) 50%,
+    transparent 75%
+  );
+  filter: blur(80px);
+  opacity: 0.8;
+  animation: radialGlowPulse 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes radialGlowPulse {
+  0%, 100% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+/* Floating particles for depth */
+.carousel-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    radial-gradient(2px 2px at 20% 30%, rgba(139, 92, 246, 0.3), transparent),
+    radial-gradient(2px 2px at 60% 70%, rgba(6, 182, 212, 0.25), transparent),
+    radial-gradient(1px 1px at 50% 50%, rgba(99, 102, 241, 0.35), transparent),
+    radial-gradient(2px 2px at 80% 10%, rgba(139, 92, 246, 0.2), transparent),
+    radial-gradient(1px 1px at 90% 60%, rgba(6, 182, 212, 0.3), transparent),
+    radial-gradient(1px 1px at 15% 80%, rgba(99, 102, 241, 0.25), transparent),
+    radial-gradient(2px 2px at 40% 20%, rgba(139, 92, 246, 0.2), transparent);
+  background-size: 200% 200%;
+  background-position: 0% 0%;
+  opacity: 0.6;
+  animation: particleFloat 20s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes particleFloat {
+  0%, 100% {
+    background-position: 0% 0%;
+    opacity: 0.6;
+  }
+  50% {
+    background-position: 100% 100%;
+    opacity: 0.8;
+  }
+}
+
+.carousel-scene {
+  width: 100%;
+  height: 100%;
+  max-height: 85vh;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transform-style: preserve-3d;
+  z-index: 1;
+}
+
+/* ===========================
+   3D Glass Reflective Floor
+   ========================== */
+
+.glass-floor {
+  position: absolute;
+  bottom: -10%;
+  left: 50%;
+  transform: translateX(-50%) translateY(30%) rotateX(75deg);
+  width: 200%;
+  height: 80vh;
+  transform-style: preserve-3d;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.glass-floor-surface {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(6, 182, 212, 0.12) 0%,
+    rgba(139, 92, 246, 0.1) 20%,
+    rgba(59, 130, 246, 0.08) 40%,
+    rgba(11, 18, 40, 0.5) 70%,
+    rgba(17, 26, 58, 0.8) 90%,
+    transparent 100%
+  );
+  backdrop-filter: blur(25px);
+  border-radius: 50% 50% 0 0 / 25% 25% 0 0;
+  box-shadow: 
+    0 -20px 100px rgba(6, 182, 212, 0.25),
+    0 -12px 80px rgba(139, 92, 246, 0.2),
+    inset 0 4px 50px rgba(255, 255, 255, 0.08),
+    0 30px 150px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  
+  /* Perspective curve effect - larger coverage */
+  clip-path: ellipse(55% 50% at 50% 25%);
+  opacity: 0.85;
+  animation: floorGlowPulse 4s ease-in-out infinite;
+}
+
+@keyframes floorGlowPulse {
+  0%, 100% {
+    box-shadow: 
+      0 -20px 100px rgba(6, 182, 212, 0.25),
+      0 -12px 80px rgba(139, 92, 246, 0.2),
+      inset 0 4px 50px rgba(255, 255, 255, 0.08),
+      0 30px 150px rgba(0, 0, 0, 0.6);
+  }
+  50% {
+    box-shadow: 
+      0 -25px 120px rgba(6, 182, 212, 0.35),
+      0 -15px 100px rgba(139, 92, 246, 0.3),
+      inset 0 5px 60px rgba(255, 255, 255, 0.12),
+      0 35px 180px rgba(0, 0, 0, 0.7);
+  }
+}
+
+/* Reflection layer for cards and orb */
+.glass-floor-reflection {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 65% 45% at 50% 28%,
+    rgba(6, 182, 212, 0.15) 0%,
+    rgba(139, 92, 246, 0.1) 25%,
+    rgba(59, 130, 246, 0.06) 45%,
+    transparent 70%
+  );
+  filter: blur(40px);
+  opacity: 0.7;
+  animation: reflectionShimmer 3s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+@keyframes reflectionShimmer {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* Soft glow streaks from orbiting cards */
+.glass-floor-glow-streak {
+  position: absolute;
+  width: 300px;
+  height: 200px;
+  top: 18%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    ellipse 55% 65% at 50% 35%,
+    rgba(6, 182, 212, 0.18),
+    rgba(139, 92, 246, 0.12) 35%,
+    transparent 70%
+  );
+  filter: blur(50px);
+  opacity: 0.6;
+  animation: glowStreakPulse 2s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+@keyframes glowStreakPulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateX(-50%) scale(1.1);
+  }
+}
+
+/* Edge fade gradient for natural blending */
+.glass-floor-edge-fade {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 58% 42% at 50% 25%,
+    transparent 0%,
+    transparent 30%,
+    rgba(11, 18, 40, 0.5) 60%,
+    rgba(17, 26, 58, 0.85) 80%,
+    rgba(29, 37, 66, 1) 100%
+  );
+  pointer-events: none;
+}
+
+/* Volumetric glow beneath the scene */
+.glass-floor::before {
+  content: '';
+  position: absolute;
+  top: -15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 50%;
+  background: radial-gradient(
+    ellipse 65% 55% at 50% 50%,
+    rgba(6, 182, 212, 0.2) 0%,
+    rgba(139, 92, 246, 0.15) 35%,
+    transparent 70%
+  );
+  filter: blur(80px);
+  opacity: 0.7;
+  pointer-events: none;
+  animation: volumetricPulse 5s ease-in-out infinite;
+}
+
+@keyframes volumetricPulse {
+  0%, 100% {
+    opacity: 0.7;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translateX(-50%) scale(1.15);
+  }
+}
+
+/* ===========================
+   Central 3D Portrait
+   ========================== */
+
+.central-portrait {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  transform-style: preserve-3d;
+  z-index: 10;
+}
+
+/* Multi-layer neon glow - blue + purple gradient */
+.portrait-glow-outer {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(6, 182, 212, 0.4) 0%,
+    rgba(139, 92, 246, 0.3) 40%,
+    rgba(59, 130, 246, 0.2) 70%,
+    transparent 100%
+  );
+  filter: blur(60px);
+  opacity: 0.7;
+}
+
+.portrait-glow-inner {
+  position: absolute;
+  width: 240px;
+  height: 240px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(6, 182, 212, 0.5) 0%,
+    rgba(139, 92, 246, 0.4) 50%,
+    transparent 100%
+  );
+  filter: blur(40px);
+  opacity: 0.7;
+}
+
+/* Dynamic color glows from orbiting cards */
+.portrait-color-glow {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  top: 50%;
+  left: 50%;
+  margin-left: -40px;
+  margin-top: -40px;
+  border-radius: 50%;
+  filter: blur(30px);
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+/* Glass framing rings */
+.portrait-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid;
+  border-image: linear-gradient(
+    45deg,
+    rgba(6, 182, 212, 0.4),
+    rgba(139, 92, 246, 0.4),
+    rgba(59, 130, 246, 0.4)
+  ) 1;
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+  opacity: 0;
+}
+
+.portrait-ring-1 {
+  width: 110%;
+  height: 110%;
+  border-color: rgba(6, 182, 212, 0.4);
+}
+
+.portrait-ring-2 {
+  width: 125%;
+  height: 125%;
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.portrait-ring-3 {
+  width: 140%;
+  height: 140%;
+  border-color: rgba(59, 130, 246, 0.2);
+}
+
+/* Portrait frame with glassmorphism */
+.portrait-frame {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(6, 182, 212, 0.3);
+  box-shadow: 
+    0 20px 60px rgba(6, 182, 212, 0.3),
+    0 0 40px rgba(139, 92, 246, 0.2),
+    inset 0 0 40px rgba(6, 182, 212, 0.08);
+  transition: all 0.7s ease-out;
+  cursor: pointer;
+}
+
+.portrait-frame:hover {
+  transform: scale(1.05);
+  border-color: rgba(6, 182, 212, 0.6);
+  box-shadow: 
+    0 25px 80px rgba(6, 182, 212, 0.5),
+    0 0 60px rgba(139, 92, 246, 0.4),
+    inset 0 0 60px rgba(6, 182, 212, 0.15);
+}
+
+/* Portrait image */
+.portrait-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.7s ease-out;
+}
+
+.portrait-frame:hover .portrait-image {
+  transform: scale(1.1);
+}
+
+/* Gradient overlay */
+.portrait-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(6, 182, 212, 0.2) 0%,
+    transparent 50%,
+    rgba(139, 92, 246, 0.2) 100%
+  );
+  opacity: 0.6;
+  transition: opacity 0.7s ease-out;
+}
+
+.portrait-frame:hover .portrait-overlay {
+  opacity: 0.8;
+}
+
+/* Holographic shine effect */
+.portrait-shine {
+  position: absolute;
+  inset: -50%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    transparent 40%,
+    rgba(255, 255, 255, 0.6) 50%,
+    transparent 60%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: all 0.7s ease-out;
+}
+
+.portrait-frame:hover .portrait-shine {
+  opacity: 1;
+  transform: translateX(100%);
+  animation: holographicShine 2s ease-in-out infinite;
+}
+
+@keyframes holographicShine {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(45deg);
+  }
+}
+
+/* ===========================
+   Orbit Container & Cards
+   ========================== */
+
+.orbit-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  transform-style: preserve-3d;
+  transition: transform 0.2s ease-out;
+}
+
+.orbit-path {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  animation: orbitRotate 10s linear infinite;
+}
+
+@keyframes orbitRotate {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+/* Depth-based effects - synchronized with orbit rotation */
+.orbit-path:nth-child(1) .skill-card { animation: depthEffect 10s linear infinite; animation-delay: 0s; }
+.orbit-path:nth-child(2) .skill-card { animation: depthEffect 10s linear infinite; animation-delay: -1.67s; }
+.orbit-path:nth-child(3) .skill-card { animation: depthEffect 10s linear infinite; animation-delay: -3.33s; }
+.orbit-path:nth-child(4) .skill-card { animation: depthEffect 10s linear infinite; animation-delay: -5s; }
+.orbit-path:nth-child(5) .skill-card { animation: depthEffect 10s linear infinite; animation-delay: -6.67s; }
+.orbit-path:nth-child(6) .skill-card { animation: depthEffect 10s linear infinite; animation-delay: -8.33s; }
+
+/* Unified depth animation for all cards */
+@keyframes depthEffect {
+  0% { 
+    transform: translateZ(400px) scale(1.15); 
+    filter: blur(0px);
+    opacity: 1;
+  }
+  5% {
+    transform: translateZ(385px) scale(1.08);
+    filter: blur(0px);
+    opacity: 1;
+  }
+  12.5% { 
+    transform: translateZ(350px) scale(1); 
+    filter: blur(0px); 
+    opacity: 1; 
+  }
+  25% { 
+    transform: translateZ(320px) scale(0.9); 
+    filter: blur(1px); 
+    opacity: 0.8; 
+  }
+  37.5% { 
+    transform: translateZ(300px) scale(0.85); 
+    filter: blur(2px); 
+    opacity: 0.7; 
+  }
+  50% { 
+    transform: translateZ(320px) scale(0.9); 
+    filter: blur(1px); 
+    opacity: 0.8; 
+  }
+  62.5% { 
+    transform: translateZ(350px) scale(1); 
+    filter: blur(0px); 
+    opacity: 1; 
+  }
+  87.5% { 
+    transform: translateZ(385px) scale(1.08); 
+    filter: blur(0px); 
+    opacity: 1; 
+  }
+  95%, 100% {
+    transform: translateZ(400px) scale(1.15);
+    filter: blur(0px);
+    opacity: 1;
+  }
+}
+
+.skill-card {
+  position: absolute;
+  width: 200px;
+  height: 260px;
+  left: 50%;
+  top: 50%;
+  margin-left: -100px;
+  margin-top: -130px;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Automatic glow activation for front cards - synchronized */
+.orbit-path:nth-child(1) .skill-card-inner { animation: cardInnerGlow 10s linear infinite; animation-delay: 0s; }
+.orbit-path:nth-child(2) .skill-card-inner { animation: cardInnerGlow 10s linear infinite; animation-delay: -1.67s; }
+.orbit-path:nth-child(3) .skill-card-inner { animation: cardInnerGlow 10s linear infinite; animation-delay: -3.33s; }
+.orbit-path:nth-child(4) .skill-card-inner { animation: cardInnerGlow 10s linear infinite; animation-delay: -5s; }
+.orbit-path:nth-child(5) .skill-card-inner { animation: cardInnerGlow 10s linear infinite; animation-delay: -6.67s; }
+.orbit-path:nth-child(6) .skill-card-inner { animation: cardInnerGlow 10s linear infinite; animation-delay: -8.33s; }
+
+/* Unified glow animation */
+@keyframes cardInnerGlow {
+  0%, 5% {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 60px var(--card-color, #00ffff), 0 0 80px var(--card-color, #00ffff) inset;
+    border-color: var(--card-color, rgba(255, 255, 255, 0.4));
+  }
+  10%, 90% {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px var(--card-color, #00ffff) inset;
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  95%, 100% {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 60px var(--card-color, #00ffff), 0 0 80px var(--card-color, #00ffff) inset;
+    border-color: var(--card-color, rgba(255, 255, 255, 0.4));
+  }
+}
+
+/* Automatic card glow rotation - synchronized */
+.orbit-path:nth-child(1) .card-glow { animation: autoGlowRotate 10s linear infinite; animation-delay: 0s; }
+.orbit-path:nth-child(2) .card-glow { animation: autoGlowRotate 10s linear infinite; animation-delay: -1.67s; }
+.orbit-path:nth-child(3) .card-glow { animation: autoGlowRotate 10s linear infinite; animation-delay: -3.33s; }
+.orbit-path:nth-child(4) .card-glow { animation: autoGlowRotate 10s linear infinite; animation-delay: -5s; }
+.orbit-path:nth-child(5) .card-glow { animation: autoGlowRotate 10s linear infinite; animation-delay: -6.67s; }
+.orbit-path:nth-child(6) .card-glow { animation: autoGlowRotate 10s linear infinite; animation-delay: -8.33s; }
+
+/* Unified glow rotation */
+@keyframes autoGlowRotate {
+  0%, 5% { opacity: 0.3; }
+  10%, 90% { opacity: 0; }
+  95%, 100% { opacity: 0.3; }
+}
+
+.skill-card:hover {
+  transform: translateZ(420px) scale(1.2) !important;
+  filter: blur(0px) !important;
+  opacity: 1 !important;
+  z-index: 100;
+}
+
+.skill-card-inner {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.05)
+  );
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.4),
+    0 0 40px var(--card-color, #00ffff) inset;
+  transition: all 0.4s ease;
+}
+
+.skill-card:hover .skill-card-inner {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15),
+    rgba(255, 255, 255, 0.08)
+  );
+  box-shadow: 
+    0 30px 80px rgba(0, 0, 0, 0.5),
+    0 0 60px var(--card-color, #00ffff),
+    0 0 80px var(--card-color, #00ffff) inset;
+  border-color: var(--card-color, rgba(255, 255, 255, 0.4));
+}
+
+.skill-icon {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 0 10px var(--card-color, #00ffff));
+  transition: all 0.4s ease;
+}
+
+.skill-card:hover .skill-icon {
+  transform: scale(1.2) translateY(-5px);
+  filter: drop-shadow(0 0 20px var(--card-color, #00ffff));
+}
+
+.skill-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 10px var(--card-color, #00ffff);
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.skill-level {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.card-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    var(--card-color, #00ffff) 45deg,
+    transparent 90deg,
+    transparent 270deg,
+    var(--card-color, #00ffff) 315deg,
+    transparent 360deg
+  );
+  opacity: 0;
+  animation: cardGlowRotate 3s linear infinite;
+  pointer-events: none;
+}
+
+.skill-card:hover .card-glow {
+  opacity: 0.3;
+}
+
+@keyframes cardGlowRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===========================
+   Ambient Background Effects
+   ========================== */
+
+.carousel-container::before,
+.carousel-container::after {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.2;
+  animation: floatAround 12s infinite ease-in-out;
+  pointer-events: none;
+}
+
+.carousel-container::before {
+  background: radial-gradient(circle, rgba(0, 255, 255, 0.5), transparent);
+  top: 10%;
+  left: 5%;
+  animation-delay: 0s;
+}
+
+.carousel-container::after {
+  background: radial-gradient(circle, rgba(138, 43, 226, 0.5), transparent);
+  bottom: 10%;
+  right: 5%;
+  animation-delay: 6s;
+}
+
+@keyframes floatAround {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(50px, -50px) scale(1.1);
+  }
+  66% {
+    transform: translate(-30px, 30px) scale(0.9);
+  }
+}
+
+/* ===========================
+   Controls & Labels
+   ========================== */
+
+.carousel-controls {
+  margin-top: 3rem;
+  text-align: center;
+  z-index: 10;
+}
+
+.carousel-heading {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 0.5rem;
+  text-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.6),
+    0 0 40px rgba(0, 128, 255, 0.4);
+  letter-spacing: 2px;
+}
+
+.carousel-subtext {
+  font-size: 1rem;
+  color: rgba(0, 255, 255, 0.8);
+  font-style: italic;
+  letter-spacing: 1px;
+}
+
+/* ===========================
+   Responsive Design
+   ========================== */
+
+@media (max-width: 768px) {
+  .carousel-scene {
+    height: 100%;
+    max-height: 80vh;
+    perspective: 1000px;
+    overflow: hidden;
+  }
+
+  .glass-floor {
+    bottom: -10%;
+    transform: translateX(-50%) translateY(28%) rotateX(75deg);
+    width: 220%;
+    height: 75vh;
+  }
+
+  .central-portrait {
+    width: 150px;
+    height: 150px;
+  }
+
+  .portrait-glow-outer {
+    width: 220px;
+    height: 220px;
+  }
+
+  .portrait-glow-inner {
+    width: 190px;
+    height: 190px;
+  }
+
+  /* Show only 3 cards on mobile - hide the 3 back cards */
+  .orbit-path:nth-child(3),
+  .orbit-path:nth-child(4),
+  .orbit-path:nth-child(5) {
+    display: none;
+  }
+
+  /* Center card (front) - largest and in focus */
+  .orbit-path:nth-child(1) .skill-card {
+    width: 180px;
+    height: 240px;
+    margin-left: -90px;
+    margin-top: -120px;
+  }
+
+  /* Side cards (left and right) - smaller */
+  .orbit-path:nth-child(2) .skill-card,
+  .orbit-path:nth-child(6) .skill-card {
+    width: 140px;
+    height: 200px;
+    margin-left: -70px;
+    margin-top: -100px;
+  }
+
+  /* Adjusted depth animations for 3 visible cards */
+  .orbit-path:nth-child(1) .skill-card { 
+    animation: depthEffectMobile3Cards 10s linear infinite; 
+    animation-delay: 0s; 
+  }
+  .orbit-path:nth-child(2) .skill-card { 
+    animation: depthEffectMobile3Cards 10s linear infinite; 
+    animation-delay: -3.33s; 
+  }
+  .orbit-path:nth-child(6) .skill-card { 
+    animation: depthEffectMobile3Cards 10s linear infinite; 
+    animation-delay: -6.67s; 
+  }
+
+  /* Mobile-optimized depth effect - 3 cards only */
+  @keyframes depthEffectMobile3Cards {
+    /* Card 1: Front center position (0-15%) */
+    0% { 
+      transform: translateZ(350px) scale(1.1); 
+      filter: blur(0px);
+      opacity: 1;
+    }
+    15% { 
+      transform: translateZ(350px) scale(1.1); 
+      filter: blur(0px); 
+      opacity: 1; 
+    }
+    
+    /* Card 1: Transitioning to side (15-33%) */
+    25% { 
+      transform: translateZ(250px) scale(0.75); 
+      filter: blur(0.5px); 
+      opacity: 0.85; 
+    }
+    33% { 
+      transform: translateZ(200px) scale(0.7); 
+      filter: blur(1px); 
+      opacity: 0.7; 
+    }
+    
+    /* Card 1: Side position (33-66%) */
+    50% { 
+      transform: translateZ(200px) scale(0.7); 
+      filter: blur(1px); 
+      opacity: 0.7; 
+    }
+    66% { 
+      transform: translateZ(200px) scale(0.7); 
+      filter: blur(1px); 
+      opacity: 0.7; 
+    }
+    
+    /* Card 1: Transitioning back to center (66-100%) */
+    85% { 
+      transform: translateZ(300px) scale(0.95); 
+      filter: blur(0px); 
+      opacity: 0.95; 
+    }
+    100% {
+      transform: translateZ(350px) scale(1.1);
+      filter: blur(0px);
+      opacity: 1;
+    }
+  }
+
+  /* Prevent horizontal overflow */
+  .orbit-container {
+    max-width: 100vw;
+    overflow: hidden;
+  }
+
+  .skill-card:hover {
+    transform: translateZ(370px) scale(1.15) !important;
+  }
+
+  .skill-icon {
+    font-size: 2.5rem;
+  }
+
+  .skill-title {
+    font-size: 1.25rem;
+  }
+
+  .skill-level {
+    font-size: 0.75rem;
+  }
+
+  .carousel-heading {
+    font-size: 2rem;
+  }
+
+  /* Sync glow animations for 3 visible cards */
+  .orbit-path:nth-child(1) .skill-card-inner { 
+    animation: cardInnerGlowMobile 10s linear infinite; 
+    animation-delay: 0s; 
+  }
+  .orbit-path:nth-child(2) .skill-card-inner { 
+    animation: cardInnerGlowMobile 10s linear infinite; 
+    animation-delay: -3.33s; 
+  }
+  .orbit-path:nth-child(6) .skill-card-inner { 
+    animation: cardInnerGlowMobile 10s linear infinite; 
+    animation-delay: -6.67s; 
+  }
+
+  @keyframes cardInnerGlowMobile {
+    0%, 15% {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 60px var(--card-color, #00ffff), 0 0 80px var(--card-color, #00ffff) inset;
+      border-color: var(--card-color, rgba(255, 255, 255, 0.4));
+    }
+    20%, 80% {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px var(--card-color, #00ffff) inset;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+    85%, 100% {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 60px var(--card-color, #00ffff), 0 0 80px var(--card-color, #00ffff) inset;
+      border-color: var(--card-color, rgba(255, 255, 255, 0.4));
+    }
+  }
+
+  .orbit-path:nth-child(1) .card-glow { 
+    animation: autoGlowRotateMobile 10s linear infinite; 
+    animation-delay: 0s; 
+  }
+  .orbit-path:nth-child(2) .card-glow { 
+    animation: autoGlowRotateMobile 10s linear infinite; 
+    animation-delay: -3.33s; 
+  }
+  .orbit-path:nth-child(6) .card-glow { 
+    animation: autoGlowRotateMobile 10s linear infinite; 
+    animation-delay: -6.67s; 
+  }
+
+  @keyframes autoGlowRotateMobile {
+    0%, 15% { opacity: 0.3; }
+    20%, 80% { opacity: 0; }
+    85%, 100% { opacity: 0.3; }
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-scene {
+    height: 100%;
+    max-height: 75vh;
+    perspective: 800px;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .glass-floor {
+    bottom: -10%;
+    transform: translateX(-50%) translateY(25%) rotateX(75deg);
+    width: 240%;
+    height: 70vh;
+  }
+
+  .glass-floor-surface {
+    backdrop-filter: blur(15px);
+  }
+
+  .central-portrait {
+    width: 120px;
+    height: 120px;
+  }
+
+  .portrait-glow-outer {
+    width: 180px;
+    height: 180px;
+  }
+
+  .portrait-glow-inner {
+    width: 150px;
+    height: 150px;
+  }
+
+  /* Show only 3 cards on mobile - hide the 3 back cards */
+  .orbit-path:nth-child(3),
+  .orbit-path:nth-child(4),
+  .orbit-path:nth-child(5) {
+    display: none;
+  }
+
+  /* Center card (front) - largest and in focus */
+  .orbit-path:nth-child(1) .skill-card {
+    width: 160px;
+    height: 220px;
+    margin-left: -80px;
+    margin-top: -110px;
+  }
+
+  /* Side cards (left and right) - smaller */
+  .orbit-path:nth-child(2) .skill-card,
+  .orbit-path:nth-child(6) .skill-card {
+    width: 120px;
+    height: 180px;
+    margin-left: -60px;
+    margin-top: -90px;
+  }
+
+  /* Adjusted depth animations for 3 visible cards on small mobile */
+  .orbit-path:nth-child(1) .skill-card { 
+    animation: depthEffectMobileSmall 10s linear infinite; 
+    animation-delay: 0s; 
+  }
+  .orbit-path:nth-child(2) .skill-card { 
+    animation: depthEffectMobileSmall 10s linear infinite; 
+    animation-delay: -3.33s; 
+  }
+  .orbit-path:nth-child(6) .skill-card { 
+    animation: depthEffectMobileSmall 10s linear infinite; 
+    animation-delay: -6.67s; 
+  }
+
+  /* Smaller mobile depth effect */
+  @keyframes depthEffectMobileSmall {
+    0% { 
+      transform: translateZ(300px) scale(1.05); 
+      filter: blur(0px);
+      opacity: 1;
+    }
+    15% { 
+      transform: translateZ(300px) scale(1.05); 
+      filter: blur(0px); 
+      opacity: 1; 
+    }
+    25% { 
+      transform: translateZ(220px) scale(0.7); 
+      filter: blur(0.5px); 
+      opacity: 0.8; 
+    }
+    33% { 
+      transform: translateZ(180px) scale(0.65); 
+      filter: blur(1px); 
+      opacity: 0.7; 
+    }
+    50%, 66% { 
+      transform: translateZ(180px) scale(0.65); 
+      filter: blur(1px); 
+      opacity: 0.7; 
+    }
+    85% { 
+      transform: translateZ(260px) scale(0.9); 
+      filter: blur(0px); 
+      opacity: 0.95; 
+    }
+    100% {
+      transform: translateZ(300px) scale(1.05);
+      filter: blur(0px);
+      opacity: 1;
+    }
+  }
+
+  /* Prevent horizontal overflow with tighter constraints */
+  .orbit-container {
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .carousel-container {
+    padding: 1rem;
+  }
+
+  .skill-card:hover {
+    transform: translateZ(320px) scale(1.1) !important;
+  }
+
+  .skill-icon {
+    font-size: 2rem;
+  }
+
+  .skill-title {
+    font-size: 1rem;
+  }
+
+  .carousel-heading {
+    font-size: 1.5rem;
+  }
+
+  .carousel-subtext {
+    font-size: 0.875rem;
+  }
+
+  /* Sync glow animations for 3 visible cards on small mobile */
+  .orbit-path:nth-child(1) .skill-card-inner { 
+    animation: cardInnerGlowMobile 10s linear infinite; 
+    animation-delay: 0s; 
+  }
+  .orbit-path:nth-child(2) .skill-card-inner { 
+    animation: cardInnerGlowMobile 10s linear infinite; 
+    animation-delay: -3.33s; 
+  }
+  .orbit-path:nth-child(6) .skill-card-inner { 
+    animation: cardInnerGlowMobile 10s linear infinite; 
+    animation-delay: -6.67s; 
+  }
+
+  .orbit-path:nth-child(1) .card-glow { 
+    animation: autoGlowRotateMobile 10s linear infinite; 
+    animation-delay: 0s; 
+  }
+  .orbit-path:nth-child(2) .card-glow { 
+    animation: autoGlowRotateMobile 10s linear infinite; 
+    animation-delay: -3.33s; 
+  }
+  .orbit-path:nth-child(6) .card-glow { 
+    animation: autoGlowRotateMobile 10s linear infinite; 
+    animation-delay: -6.67s; 
+  }
+}

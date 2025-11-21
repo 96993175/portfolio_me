@@ -69,20 +69,153 @@ export default function Contact() {
   const formRef = useRef<HTMLFormElement>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const leftCardRef = useRef<HTMLDivElement>(null);
+  const rightCardRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const resizeCanvas = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    class Particle {
+      x: number;
+      y: number;
+      size: number;
+      speedX: number;
+      speedY: number;
+      opacity: number;
+      color: string;
+
+      constructor(canvasWidth: number, canvasHeight: number) {
+        this.x = Math.random() * canvasWidth;
+        this.y = Math.random() * canvasHeight;
+        this.size = Math.random() * 2 + 0.5;
+        this.speedX = (Math.random() - 0.5) * 0.3;
+        this.speedY = (Math.random() - 0.5) * 0.3;
+        this.opacity = Math.random() * 0.15 + 0.05;
+        
+        const colors = [
+          'rgba(6, 182, 212, ',
+          'rgba(139, 92, 246, ',
+          'rgba(59, 130, 246, ',
+        ];
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+      }
+
+      update(canvasWidth: number, canvasHeight: number) {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (this.x > canvasWidth) this.x = 0;
+        if (this.x < 0) this.x = canvasWidth;
+        if (this.y > canvasHeight) this.y = 0;
+        if (this.y < 0) this.y = canvasHeight;
+      }
+
+      draw(context: CanvasRenderingContext2D) {
+        context.fillStyle = this.color + this.opacity + ')';
+        context.beginPath();
+        context.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        context.fill();
+        
+        context.shadowBlur = 8;
+        context.shadowColor = this.color + (this.opacity * 0.5) + ')';
+        context.fill();
+        context.shadowBlur = 0;
+      }
+    }
+
+    const particles: Particle[] = [];
+    const particleCount = 60;
+    
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle(canvas.width, canvas.height));
+    }
+
+    let animationId: number;
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      particles.forEach(particle => {
+        particle.update(canvas.width, canvas.height);
+        particle.draw(ctx);
+      });
+
+      particles.forEach((particleA, indexA) => {
+        particles.slice(indexA + 1).forEach(particleB => {
+          const dx = particleA.x - particleB.x;
+          const dy = particleA.y - particleB.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 120) {
+            ctx.strokeStyle = `rgba(6, 182, 212, ${0.05 * (1 - distance / 120)})`;
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.moveTo(particleA.x, particleA.y);
+            ctx.lineTo(particleB.x, particleB.y);
+            ctx.stroke();
+          }
+        });
+      });
+
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      window.removeEventListener('resize', resizeCanvas);
+      cancelAnimationFrame(animationId);
+    };
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(sectionRef.current, {
+      gsap.from(titleRef.current, {
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 80%',
-          end: 'bottom 20%',
-          toggleActions: 'play none none reverse',
+          start: 'top 75%',
         },
         opacity: 0,
-        y: 100,
+        scale: 0.8,
+        y: 40,
+        duration: 1.2,
+        ease: 'back.out(1.7)',
+      });
+
+      gsap.from(leftCardRef.current, {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 65%',
+        },
+        opacity: 0,
+        x: -100,
         duration: 1.2,
         ease: 'power3.out',
+        delay: 0.3,
+      });
+
+      gsap.from(rightCardRef.current, {
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top 65%',
+        },
+        opacity: 0,
+        x: 100,
+        duration: 1.2,
+        ease: 'power3.out',
+        delay: 0.5,
       });
     }, sectionRef);
 
@@ -114,31 +247,63 @@ export default function Contact() {
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-screen w-full py-20 px-4 bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900"
+      className="relative min-h-screen w-full py-12 px-4 overflow-hidden flex items-center"
+      style={{
+        background: 'linear-gradient(180deg, #0b1228 0%, #111a3a 50%, #1d2542 100%)',
+      }}
     >
-      <div className="max-w-6xl mx-auto">
+      {/* Canvas particle background */}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        style={{ opacity: 0.6 }}
+      />
+
+      {/* Soft background neon lights */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-20 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-20 right-20 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[120px]" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-blue-500/5 rounded-full blur-[100px]" />
+      </div>
+
+      <div className="max-w-6xl mx-auto relative z-10">
         <h2
-          className="text-5xl md:text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 mb-12 text-center"
-          style={{ textShadow: '0 0 40px rgba(168, 85, 247, 0.4)' }}
+          ref={titleRef}
+          className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 mb-6 md:mb-8 text-center"
+          style={{ textShadow: '0 0 60px rgba(6, 182, 212, 0.3)' }}
         >
           Get In Touch
         </h2>
 
-        <div className="grid md:grid-cols-2 gap-12">
-          <div className="space-y-8">
-            <div
-              className="p-8 rounded-2xl backdrop-blur-lg bg-white/5 border border-purple-500/30"
-              style={{
-                boxShadow: '0 0 40px rgba(168, 85, 247, 0.2)',
-              }}
-            >
-              <h3 className="text-3xl font-bold text-cyan-400 mb-6">Let's Create Something Amazing</h3>
-              <p className="text-cyan-100 mb-8 leading-relaxed">
+        <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+          <div ref={leftCardRef} className="space-y-4 md:space-y-6">
+            <div className="relative p-[2px] rounded-2xl overflow-hidden group">
+              {/* Animated gradient border */}
+              <div 
+                className="absolute inset-0 rounded-2xl transition-opacity duration-500"
+                style={{
+                  background: 'linear-gradient(45deg, rgba(6, 182, 212, 0.6), rgba(139, 92, 246, 0.6), rgba(59, 130, 246, 0.6), rgba(6, 182, 212, 0.6))',
+                  backgroundSize: '300% 300%',
+                  animation: 'gradientMove 4s ease infinite',
+                  opacity: 0.7,
+                }}
+              />
+              
+              <div
+                className="relative p-8 rounded-2xl backdrop-blur-xl transition-all duration-500 ease-out"
+                style={{
+                  background: 'rgba(15, 23, 42, 0.85)',
+                  border: '1px solid rgba(255, 255, 255, 0.08)',
+                  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(6, 182, 212, 0.03)',
+                }}
+              >
+              <h3 className="text-xl md:text-2xl font-bold text-cyan-400 mb-3 md:mb-4">Let's Create Something Amazing</h3>
+              <p className="text-sm md:text-base text-gray-300 mb-4 md:mb-6 leading-relaxed">
                 Ready to bring your ideas to life? I'm always open to discussing new projects,
                 creative ideas, or opportunities to be part of your visions.
               </p>
 
-              <div className="space-y-4">
+              <div className="space-y-2 md:space-y-3">
                 {[
                   { icon: Mail, label: 'hello@future.dev', href: 'mailto:hello@future.dev' },
                   { icon: Phone, label: '+1 (555) 123-4567', href: 'tel:+15551234567' },
@@ -149,70 +314,106 @@ export default function Contact() {
                     <a
                       key={index}
                       href={contact.href}
-                      className="flex items-center gap-4 p-4 rounded-xl backdrop-blur-lg bg-white/5 border border-cyan-500/20 hover:border-cyan-400/50 transition-all duration-300 group"
+                      className="flex items-center gap-3 p-3 rounded-lg backdrop-blur-lg bg-slate-800/60 border border-cyan-500/30 hover:border-cyan-400/60 transition-all duration-300 group shadow-sm hover:shadow-md"
                     >
                       <Icon
                         className="text-cyan-400 group-hover:scale-110 transition-transform"
-                        size={24}
-                        style={{
-                          filter: 'drop-shadow(0 0 10px rgba(0, 255, 255, 0.5))',
-                        }}
+                        size={20}
                       />
-                      <span className="text-cyan-100">{contact.label}</span>
+                      <span className="text-sm md:text-base text-gray-300">{contact.label}</span>
                     </a>
                   );
                 })}
               </div>
             </div>
+            </div>
 
             <div className="flex justify-center">
-              <div className="w-40 h-40">
+              <div className="w-24 h-24 md:w-32 md:h-32">
                 <Lottie animationData={robotAnimation} loop />
               </div>
             </div>
           </div>
 
-          <div
-            className="p-8 rounded-2xl backdrop-blur-lg bg-white/5 border border-cyan-500/30"
-            style={{
-              boxShadow: '0 0 40px rgba(0, 255, 255, 0.2)',
-            }}
-          >
-            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+          <div ref={rightCardRef} className="relative p-[2px] rounded-2xl overflow-hidden group">
+            {/* Animated gradient border */}
+            <div 
+              className="absolute inset-0 rounded-2xl transition-opacity duration-500"
+              style={{
+                background: 'linear-gradient(45deg, rgba(6, 182, 212, 0.6), rgba(139, 92, 246, 0.6), rgba(59, 130, 246, 0.6), rgba(6, 182, 212, 0.6))',
+                backgroundSize: '300% 300%',
+                animation: 'gradientMove 4s ease infinite',
+                opacity: 0.7,
+              }}
+            />
+            
+            <div
+              className="relative p-8 rounded-2xl backdrop-blur-xl transition-all duration-500 ease-out"
+              style={{
+                background: 'rgba(15, 23, 42, 0.85)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(6, 182, 212, 0.03)',
+              }}
+            >
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
               <div>
-                <label className="block text-cyan-400 font-semibold mb-2">Name</label>
+                <label className="block text-cyan-400 text-sm md:text-base font-semibold mb-1.5">Name</label>
                 <input
                   type="text"
                   required
-                  className="w-full px-4 py-3 rounded-xl bg-black/40 border-2 border-cyan-500/30 text-cyan-100 placeholder-cyan-600 focus:border-cyan-400 focus:outline-none transition-all"
+                  className="w-full px-3 py-2 md:py-2.5 text-sm md:text-base rounded-lg md:rounded-xl bg-slate-900/60 border-2 border-cyan-500/30 text-gray-200 placeholder-gray-500 focus:border-cyan-400 focus:outline-none transition-all duration-300"
                   style={{
-                    boxShadow: '0 0 20px rgba(0, 255, 255, 0.1)',
+                    boxShadow: '0 0 20px rgba(6, 182, 212, 0.1)',
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.boxShadow = '0 0 30px rgba(6, 182, 212, 0.4), 0 0 60px rgba(6, 182, 212, 0.2)';
+                    e.currentTarget.style.transform = 'scale(1.02)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.boxShadow = '0 0 20px rgba(6, 182, 212, 0.1)';
+                    e.currentTarget.style.transform = 'scale(1)';
                   }}
                   placeholder="Your Name"
                 />
               </div>
 
               <div>
-                <label className="block text-cyan-400 font-semibold mb-2">Email</label>
+                <label className="block text-cyan-400 text-sm md:text-base font-semibold mb-1.5">Email</label>
                 <input
                   type="email"
                   required
-                  className="w-full px-4 py-3 rounded-xl bg-black/40 border-2 border-cyan-500/30 text-cyan-100 placeholder-cyan-600 focus:border-cyan-400 focus:outline-none transition-all"
+                  className="w-full px-3 py-2 md:py-2.5 text-sm md:text-base rounded-lg md:rounded-xl bg-slate-900/60 border-2 border-cyan-500/30 text-gray-200 placeholder-gray-500 focus:border-cyan-400 focus:outline-none transition-all duration-300"
                   style={{
-                    boxShadow: '0 0 20px rgba(0, 255, 255, 0.1)',
+                    boxShadow: '0 0 20px rgba(6, 182, 212, 0.1)',
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.boxShadow = '0 0 30px rgba(6, 182, 212, 0.4), 0 0 60px rgba(6, 182, 212, 0.2)';
+                    e.currentTarget.style.transform = 'scale(1.02)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.boxShadow = '0 0 20px rgba(6, 182, 212, 0.1)';
+                    e.currentTarget.style.transform = 'scale(1)';
                   }}
                   placeholder="your@email.com"
                 />
               </div>
 
               <div>
-                <label className="block text-cyan-400 font-semibold mb-2">Message</label>
+                <label className="block text-cyan-400 text-sm md:text-base font-semibold mb-1.5">Message</label>
                 <textarea
                   required
-                  rows={5}
-                  className="w-full px-4 py-3 rounded-xl bg-black/40 border-2 border-cyan-500/30 text-cyan-100 placeholder-cyan-600 focus:border-cyan-400 focus:outline-none transition-all resize-none"
+                  rows={4}
+                  className="w-full px-3 py-2 md:py-2.5 text-sm md:text-base rounded-lg md:rounded-xl bg-slate-900/60 border-2 border-cyan-500/30 text-gray-200 placeholder-gray-500 focus:border-cyan-400 focus:outline-none transition-all duration-300 resize-none"
                   style={{
-                    boxShadow: '0 0 20px rgba(0, 255, 255, 0.1)',
+                    boxShadow: '0 0 20px rgba(6, 182, 212, 0.1)',
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.boxShadow = '0 0 30px rgba(6, 182, 212, 0.4), 0 0 60px rgba(6, 182, 212, 0.2)';
+                    e.currentTarget.style.transform = 'scale(1.02)';
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.boxShadow = '0 0 20px rgba(6, 182, 212, 0.1)';
+                    e.currentTarget.style.transform = 'scale(1)';
                   }}
                   placeholder="Tell me about your project..."
                 />
@@ -222,21 +423,27 @@ export default function Contact() {
                 <button
                   ref={buttonRef}
                   type="submit"
-                  className="relative w-full px-6 py-4 bg-gradient-to-r from-cyan-500 to-purple-500 text-white font-bold text-lg rounded-xl overflow-hidden group"
+                  className="relative w-full px-4 py-3 md:py-3.5 bg-gradient-to-r from-cyan-600 to-purple-600 text-white font-bold text-base md:text-lg rounded-lg md:rounded-xl overflow-hidden group transition-all duration-300"
                   style={{
-                    boxShadow: '0 0 30px rgba(0, 255, 255, 0.5)',
+                    boxShadow: '0 0 30px rgba(6, 182, 212, 0.3)',
                     transform: `translate(${mousePosition.x * 0.1}px, ${mousePosition.y * 0.1}px)`,
-                    transition: 'transform 0.2s ease-out',
                   }}
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2">
-                    <Send size={20} />
+                    <Send size={18} className="group-hover:rotate-45 transition-transform duration-300" />
                     Send Message
                   </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div 
+                    className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-300"
+                    style={{
+                      background: 'radial-gradient(circle at center, rgba(255,255,255,0.8), transparent 70%)',
+                    }}
+                  />
                 </button>
               </div>
             </form>
+          </div>
           </div>
         </div>
       </div>
