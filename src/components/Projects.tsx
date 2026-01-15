@@ -20,8 +20,8 @@ const projects = [
     tech: ['React', 'Mongodb', 'Flask'],
     color: '#10b981',
     thumbnail: '🌾',
-    liveUrl: 'https://krushimitra1.netlify.app/',
-    githubUrl: 'https://github.com/Dhairyashil-ui/KrushiMitra',
+    liveUrl: 'https://krushimitra.online',
+    githubUrl: 'https://github.com/Dhairyashil-ui/KrushiMitra-frontend',
   },
   {
     title: 'Graphify',
@@ -30,7 +30,7 @@ const projects = [
     color: '#06b6d4',
     thumbnail: '📈',
 
-    liveUrl: 'https://fusion-urvg.vercel.app/',
+    liveUrl: 'https://graphify-techoraplus.vercel.app/',
     githubUrl: 'https://github.com/agrimate123-ctrl/FUSION',
   },
   {
@@ -39,7 +39,7 @@ const projects = [
     tech: ['Next.js 16', 'TypeScript', 'React 19'],
     color: '#22c55e',
     thumbnail: '🚜',
-    liveUrl: 'https://agrimater.com/',
+    liveUrl: 'https://agrimater-website-theta.vercel.app/',
     githubUrl: 'https://github.com/Dhairyashil-ui/Agrimater6',
   },
   {
@@ -75,7 +75,7 @@ const projects = [
     tech: ['React', 'TypeScript', 'Web Audio API'],
     color: '#ec4899',
     thumbnail: '🎮',
-    liveUrl: 'https://simon-game-developme-8sbz.bolt.host/',
+    liveUrl: 'https://simongame-nine-phi.vercel.app/',
     githubUrl: 'https://github.com/agrimate123-ctrl/simon_game',
   },
 ];

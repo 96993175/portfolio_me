@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Send, Mail, MapPin, Phone } from 'lucide-react';
+import { Send, Mail, MapPin, Phone, Linkedin } from 'lucide-react';
 import Lottie from 'lottie-react';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -305,9 +305,9 @@ export default function Contact() {
 
               <div className="space-y-2 md:space-y-3">
                 {[
-                  { icon: Mail, label: 'dhairyashilshinde6715@gmail.com', href: 'dhairyashilshinde6715@gmail.com' },
+                  { icon: Mail, label: 'dhairyashilshinde6715@gmail.com', href: 'mailto:dhairyashilshinde6715@gmail.com' },
                   { icon: Phone, label: '+91 9699317520', href: 'tel:+919699317520' },
-                  { icon: MapPin, label: 'I2IT Collage, Hinjawadi Phase 1, Pune' },
+                  { icon: MapPin, label: 'I2IT College, Hinjawadi Phase 1, Pune' },
                 ].map((contact, index) => {
                   const Icon = contact.icon;
                   return (

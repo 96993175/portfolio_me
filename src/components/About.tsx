@@ -220,7 +220,7 @@ export default function About() {
       } else {
         clearInterval(interval);
       }
-    }, 15);
+    }, 8);
 
     return () => clearInterval(interval);
   }, [hasStartedTyping]);
