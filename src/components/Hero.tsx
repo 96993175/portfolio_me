@@ -233,7 +233,7 @@ export default function Hero() {
                 textShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
               }}
             >
-              AI Engineer & Product Builder
+              Founder & AI builder creating voice-first, reasoning-driven systems.
             </p>
           </div>
 
@@ -312,9 +312,7 @@ export default function Hero() {
               textShadow: '0 2px 10px rgba(0, 0, 0, 0.05)',
             }}
           >
-            AI Full Stack Developer, Crafting intelligent solutions with clarity. 
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600 font-bold"> innovative</span>, and 
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600 font-bold"> user-centric</span> solutions
+            Founder & AI builder creating voice-first, reasoning-driven systems.
           </p>
 
           {/* Desktop CTA Buttons */}

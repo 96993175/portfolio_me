@@ -15,7 +15,7 @@ export default function About() {
   const [displayedText, setDisplayedText] = useState('');
   const [hasStartedTyping, setHasStartedTyping] = useState(false);
 
-  const fullText = `I'm Dhairyashil, an AI Full-Stack Developer who builds complete products using AI. From frontend and backend to ML models, I use AI to create fast, futuristic, and intelligent solutions. Right now, I'm building Agrimater and exploring how AI can power the next generation of apps.`;
+  const fullText = `I'm Dhairyashil, an AI Full Stack developer and AI builder focused on reasoning-first systems.\nI work at the intersection of voice, intelligence, and visual graphs to create AI that doesn't just respond it explains.\n\nRight now, I'm building products like Graphify and Agrimater, turning complex ideas into usable AI experiences.`;
 
   // Canvas particle animation
   useEffect(() => {
