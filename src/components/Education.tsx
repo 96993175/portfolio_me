@@ -12,8 +12,17 @@ import {
   Trophy,
   ExternalLink,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Clock,
+  Sparkles,
+  Brain,
+  ShieldCheck,
+  Cloud,
+  Download,
+  FileText,
+  CheckCircle
 } from 'lucide-react';
+import { certificatesData, CertificateItem } from '../data/certificatesData';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -53,8 +62,49 @@ const educationData = [
 
 const courses = [
   {
+    title: 'Prompt Engineering',
+    provider: 'Harvard Online',
+    duration: '4 months',
+    icon: Sparkles,
+    skills: ['Prompt Engineering', 'Generative AI', 'LLMs', 'Context Optimization'],
+    color: '#ef4444',
+    completion: '100%',
+    certified: true,
+  },
+  {
+    title: 'Artificial Intelligence',
+    provider: 'MIT',
+    duration: '2 months',
+    icon: Brain,
+    skills: ['Machine Learning', 'Deep Learning', 'Neural Networks', 'AI Algorithms'],
+    color: '#8b5cf6',
+    completion: '100%',
+    certified: true,
+  },
+  {
+    title: 'Cybersecurity',
+    provider: 'MIT',
+    duration: '1 month',
+    icon: ShieldCheck,
+    skills: ['Network Security', 'Cryptography', 'Threat Analysis', 'Cyber Defense'],
+    color: '#10b981',
+    completion: '100%',
+    certified: true,
+  },
+  {
+    title: 'Cloud Computing',
+    provider: 'Oracle',
+    duration: '2 weeks',
+    icon: Cloud,
+    skills: ['Oracle Cloud (OCI)', 'Cloud Architecture', 'Compute & Storage', 'DevOps'],
+    color: '#f97316',
+    completion: '100%',
+    certified: true,
+  },
+  {
     title: 'HarvardX: CS50s Introduction to Computer Science',
     provider: 'Edx',
+    duration: '3 months',
     icon: FileCheck,
     skills: ['Python', 'Ai', 'HTML', 'CSS'],
     color: '#00ffff',
@@ -64,15 +114,17 @@ const courses = [
   {
     title: 'HarvardX: CS50s introduction to programming with python',
     provider: 'Edx',
+    duration: '2 months',
     icon: Award,
     skills: ['functions', 'loops', 'conditionals', 'file I/O'],
-    color: '#a855f7',
+    color: '#38bdf8',
     completion: '100%',
     certified: true,
   },
   {
     title: 'AI Engineer Agentic Track',
     provider: 'Udemy',
+    duration: '2 months',
     icon: FileCheck,
     skills: ['Ai', 'Ai Agents', 'Data Science', 'Development'],
     color: '#06b6d4',
@@ -82,6 +134,7 @@ const courses = [
   {
     title: 'AI for Everyone',
     provider: 'Edx',
+    duration: '1 month',
     icon: Award,
     skills: ['Generative AI', 'Machine Learning', 'NLP', 'Ai for cloud'],
     color: '#ec4899',
@@ -91,6 +144,7 @@ const courses = [
   {
     title: 'AI Applications and Prompt Engineering',
     provider: 'Edx',
+    duration: '1 month',
     icon: Trophy,
     skills: ['Prompting', 'AI basics', 'AI applications', 'Development'],
     color: '#f59e0b',
@@ -99,34 +153,19 @@ const courses = [
   },
 ];
 
-export default function Education() {
+export default function Education({ onNavigate }: { onNavigate?: (page: 'portfolio' | 'certificates' | 'achievements' | 'projects') => void }) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const educationTitleRef = useRef<HTMLHeadingElement>(null);
   const coursesTitleRef = useRef<HTMLHeadingElement>(null);
   const certificatesTitleRef = useRef<HTMLHeadingElement>(null);
   const certificatesGridRef = useRef<HTMLDivElement>(null);
   const [hoveredCourse, setHoveredCourse] = useState<number | null>(null);
-  const [selectedCertificate, setSelectedCertificate] = useState<string | null>(null);
+  const [selectedCertificate, setSelectedCertificate] = useState<CertificateItem | null>(null);
   const [currentCertificatePage, setCurrentCertificatePage] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const certificatesPerPage = 8;
 
-  const certificates = [
-    { name: 'Hack2skill Certificate 1', image: '/certificates/Hack2skill-Certificate (4).png' },
-    { name: 'Hack2skill Certificate 2', image: '/certificates/Hack2skill-Certificate (3).png' },
-    { name: 'Dhairyashil Shinde Certificate', image: '/certificates/Dhairyashil Shinde (3).png' },
-    { name: 'Achievement Certificate', image: '/certificates/Dhairyashil Deepak Shinde-Certificate.png' },
-    { name: 'Professional Certification', image: '/certificates/4d7b641d-0da6-44ce-a5b5-ba8a4dd00180 (1).jpg' },
-    { name: 'Course Completion', image: '/certificates/20_20250930_112806_0019.png' },
-    { name: 'Technical Certificate', image: '/certificates/1PFZZ90WE9 (2).png' },
-    { name: 'Excellence Award', image: '/certificates/135 (1).png' },
-    { name: 'Additional Certificate', image: '/certificates/image.png' },
-    { name: 'Development Achievement', image: '/certificates/Screenshot 2025-11-21 013055.png' },
-    { name: 'Programming Certificate', image: '/certificates/Screenshot 2025-11-21 013248.png' },
-    { name: 'Technical Excellence', image: '/certificates/Screenshot 2025-11-21 013436.png' },
-    { name: 'Advanced Training', image: '/certificates/Screenshot 2025-11-21 013608.png' },
-    { name: 'Skill Development', image: '/certificates/Screenshot 2025-11-21 013703.png' },
-  ];
+  const certificates = certificatesData;
 
   const totalPages = Math.ceil(certificates.length / certificatesPerPage);
   const displayedCertificates = certificates.slice(
@@ -675,10 +714,28 @@ export default function Education() {
                           >
                             {course.title}
                           </h3>
-                          <p className="text-gray-400 text-xs flex items-center gap-1">
-                            <ExternalLink className="w-3 h-3" />
-                            {course.provider}
-                          </p>
+                          <div className="flex items-center gap-2 flex-wrap text-gray-400 text-xs">
+                            <span className="flex items-center gap-1">
+                              <ExternalLink className="w-3 h-3" />
+                              {course.provider}
+                            </span>
+                            {course.duration && (
+                              <>
+                                <span className="text-gray-600">•</span>
+                                <span 
+                                  className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[11px] font-semibold"
+                                  style={{
+                                    background: `${course.color}20`,
+                                    color: course.color,
+                                    border: `1px solid ${course.color}40`,
+                                  }}
+                                >
+                                  <Clock className="w-3 h-3" />
+                                  {course.duration}
+                                </span>
+                              </>
+                            )}
+                          </div>
                         </div>
                       </div>
 
@@ -829,7 +886,7 @@ export default function Education() {
                   <div
                     key={actualIndex}
                     className="certificate-card animated group relative cursor-pointer"
-                    onClick={() => setSelectedCertificate(certificate.image)}
+                    onClick={() => setSelectedCertificate(certificate)}
                   >
                     <div
                       className="relative h-48 rounded-xl overflow-hidden backdrop-blur-lg bg-gradient-to-br from-slate-800/90 to-slate-900/90 border-2 border-yellow-500/30 transition-all duration-500 hover:scale-105 hover:-translate-y-3 hover:border-yellow-400/60"
@@ -919,6 +976,19 @@ export default function Education() {
               ))}
             </div>
           )}
+
+          {/* View All on Dedicated Page CTA */}
+          {onNavigate && (
+            <div className="mt-10 text-center">
+              <button
+                onClick={() => onNavigate('certificates')}
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-gradient-to-r from-yellow-500 via-amber-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-slate-950 font-black text-sm tracking-wide shadow-xl shadow-amber-500/25 hover:shadow-amber-500/50 hover:scale-105 active:scale-95 transition-all duration-300"
+              >
+                <Award className="w-5 h-5 text-slate-950" />
+                <span>Explore All {certificates.length} Certificates & Download PDFs →</span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
@@ -981,16 +1051,51 @@ export default function Education() {
               />
 
               {/* Image */}
-              <div className="relative max-h-[85vh] overflow-auto custom-scrollbar">
+              <div className="relative max-h-[68vh] overflow-auto custom-scrollbar flex items-center justify-center p-2">
                 <img
-                  src={selectedCertificate}
-                  alt="Certificate"
-                  className="w-full h-auto rounded-lg shadow-2xl"
+                  src={selectedCertificate.image}
+                  alt={selectedCertificate.name}
+                  className="max-h-[62vh] w-auto object-contain rounded-lg shadow-2xl"
                   style={{
                     boxShadow: '0 0 60px rgba(251, 191, 36, 0.3), inset 0 0 40px rgba(0, 0, 0, 0.2)',
                     animation: 'imageFloat 3s ease-in-out infinite',
                   }}
                 />
+              </div>
+
+              {/* Certificate Details & Actions */}
+              <div className="mt-4 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs">
+                <div>
+                  <h4 className="text-white font-bold text-base">{selectedCertificate.name}</h4>
+                  {selectedCertificate.issuer && (
+                    <p className="text-gray-400 mt-0.5">
+                      Issued by <span className="text-amber-300 font-semibold">{selectedCertificate.issuer}</span> • {selectedCertificate.year || '2026'}
+                    </p>
+                  )}
+                </div>
+
+                <div className="flex items-center gap-2">
+                  {selectedCertificate.pdf && (
+                    <a
+                      href={selectedCertificate.pdf}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold flex items-center gap-1.5 shadow-lg transition-transform hover:scale-105"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                      <span>Download Original PDF</span>
+                    </a>
+                  )}
+                  <a
+                    href={selectedCertificate.image}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold flex items-center gap-1.5 transition-colors"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" />
+                    <span>View Image</span>
+                  </a>
+                </div>
               </div>
 
               {/* Floating particles */}
@@ -1001,8 +1106,8 @@ export default function Education() {
             </div>
 
             {/* Action hint */}
-            <div className="text-center mt-6 animate-bounce">
-              <p className="text-gray-400 text-sm">Click anywhere outside to close</p>
+            <div className="text-center mt-4">
+              <p className="text-gray-400 text-xs">Click anywhere outside to close</p>
             </div>
           </div>
         </div>

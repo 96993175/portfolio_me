@@ -1,0 +1,232 @@
+export interface CertificateItem {
+  id?: string;
+  name: string;
+  image: string;
+  pdf?: string;
+  category?: 'Hackathon' | 'Course' | 'Competition';
+  issuer?: string;
+  year?: string;
+}
+
+export const certificatesData: CertificateItem[] = [
+  // Newly Added & Featured 2026 Certificates
+  {
+    name: 'ISRO Bharatiya Antariksh Hackathon 2026',
+    image: '/certificates/2026H2S06BAH-P16589.png',
+    pdf: '/certificates/2026H2S06BAH-P16589.pdf',
+    category: 'Hackathon',
+    issuer: 'ISRO & Hack2skill',
+    year: '2026',
+  },
+  {
+    name: "ALGOVERSE'26 Top 35 - Algorand Web3 Hackathon",
+    image: '/certificates/certificate_259.png',
+    pdf: '/certificates/certificate_259.pdf',
+    category: 'Hackathon',
+    issuer: 'Bharati Vidyapeeth & Algorand',
+    year: '2026',
+  },
+  {
+    name: 'Urban AI Innovation Challenge 2026 Finalist',
+    image: '/certificates/Dhairyashil_Shinde_Certificate.png',
+    pdf: '/certificates/Dhairyashil_Shinde_Certificate.pdf',
+    category: 'Hackathon',
+    issuer: 'Urban AI Innovation Challenge',
+    year: '2026',
+  },
+  {
+    name: 'Deep Hack by Sinhgad Institute',
+    image: '/certificates/Dhairyashil_Certificate.png',
+    pdf: '/certificates/Dhairyashil_Certificate.pdf',
+    category: 'Hackathon',
+    issuer: 'Sinhgad Institute',
+    year: '2026',
+  },
+  {
+    name: 'Adobe University Hackathon',
+    image: '/certificates/ed791680-1c8d-47ea-aa63-7da0aee9cb95.png',
+    pdf: '/certificates/ed791680-1c8d-47ea-aa63-7da0aee9cb95.pdf',
+    category: 'Hackathon',
+    issuer: 'Adobe',
+    year: '2026',
+  },
+  {
+    name: 'Quantum Arena 1.0 - Navsahyadri Group',
+    image: '/certificates/participant-460.png',
+    pdf: '/certificates/participant-460.pdf',
+    category: 'Hackathon',
+    issuer: 'Navsahyadri Group of Institutions',
+    year: '2026',
+  },
+  {
+    name: 'The Complete Agentic AI Engineering Course',
+    image: '/certificates/UC-b2b9bb48-03b7-4e21-8a6d-609800cde6d0.png',
+    pdf: '/certificates/UC-b2b9bb48-03b7-4e21-8a6d-609800cde6d0.pdf',
+    category: 'Course',
+    issuer: 'Udemy (Ed Donner)',
+    year: '2025',
+  },
+
+  // Regional & National Hackathons
+  {
+    name: 'Symbiosis Graffiti CTF 2026',
+    image: '/certificates/Symbiosis-Graffiti-CTF-2026.png',
+    category: 'Hackathon',
+    issuer: 'Symbiosis Institute',
+    year: '2026',
+  },
+  {
+    name: 'PICT TechFiesta Hackathon',
+    image: '/certificates/PICT-TechFiesta-Hackathon-2026.png',
+    category: 'Hackathon',
+    issuer: 'PICT Pune',
+    year: '2026',
+  },
+  {
+    name: 'PCCOE INDRADHANU Grand Challenge',
+    image: '/certificates/PCCOE-Indradhanu-Challenge-2026.png',
+    category: 'Hackathon',
+    issuer: 'PCCOE Pune',
+    year: '2026',
+  },
+  {
+    name: 'DY Patil Hacksphere 1.0',
+    image: '/certificates/DY-Patil-Hacksphere-2026.png',
+    category: 'Hackathon',
+    issuer: 'DY Patil College',
+    year: '2026',
+  },
+  {
+    name: 'KJ Somaiya Agri-Tech Hackathon',
+    image: '/certificates/KJ-Somaiya-AgriTech-Hackathon-2026.png',
+    category: 'Hackathon',
+    issuer: 'KJ Somaiya College',
+    year: '2026',
+  },
+  {
+    name: 'SPIT Mumbai HackFusion 2026',
+    image: '/certificates/SPIT-Mumbai-HackFusion-2026.png',
+    category: 'Hackathon',
+    issuer: 'SPIT Mumbai',
+    year: '2026',
+  },
+  {
+    name: 'SPIT Mumbai Hackathon 2026',
+    image: '/certificates/SPIT-Mumbai-Hackathon-2026.png',
+    category: 'Hackathon',
+    issuer: 'SPIT Mumbai',
+    year: '2026',
+  },
+  {
+    name: 'Sinhgad Elvion Hackathon 2026',
+    image: '/certificates/Sinhgad-Elvion-Hackathon-2026.png',
+    category: 'Hackathon',
+    issuer: 'Sinhgad Institute',
+    year: '2026',
+  },
+  {
+    name: 'JSPM Smart Khet Ideathon',
+    image: '/certificates/JSPM - IDEATHON.jpeg',
+    category: 'Competition',
+    issuer: 'JSPM Pune',
+    year: '2025',
+  },
+  {
+    name: 'JSPM PRAKALP Competition',
+    image: '/certificates/JSPM - PRAKALP.jpg',
+    category: 'Competition',
+    issuer: 'JSPM Pune',
+    year: '2025',
+  },
+  {
+    name: 'GDG Solution Challenge',
+    image: '/certificates/Hack2skill-Certificate (4).png',
+    category: 'Hackathon',
+    issuer: 'Google Developer Groups',
+    year: '2025',
+  },
+  {
+    name: 'Google Cloud Agentic AI Day',
+    image: '/certificates/Hack2skill-Certificate (3).png',
+    category: 'Course',
+    issuer: 'Google Cloud & Hack2skill',
+    year: '2025',
+  },
+  {
+    name: 'Build with India - Top 5000',
+    image: '/certificates/Dhairyashil Shinde (3).png',
+    category: 'Hackathon',
+    issuer: 'Build with India',
+    year: '2024',
+  },
+  {
+    name: '30 Days Programming Challenge',
+    image: '/certificates/Dhairyashil Deepak Shinde-Certificate.png',
+    category: 'Competition',
+    issuer: 'Coding Challenge',
+    year: '2024',
+  },
+  {
+    name: 'Build with India - Team Evolve',
+    image: '/certificates/4d7b641d-0da6-44ce-a5b5-ba8a4dd00180 (1).jpg',
+    category: 'Hackathon',
+    issuer: 'Build with India',
+    year: '2024',
+  },
+  {
+    name: 'Techspark Project Competition',
+    image: '/certificates/20_20250930_112806_0019.png',
+    category: 'Competition',
+    issuer: 'Techspark',
+    year: '2025',
+  },
+  {
+    name: 'NxtWave GenAI Buildathon',
+    image: '/certificates/1PFZZ90WE9 (2).png',
+    category: 'Hackathon',
+    issuer: 'NxtWave',
+    year: '2025',
+  },
+  {
+    name: 'INNOVATEXPO 2025 Award',
+    image: '/certificates/135 (1).png',
+    category: 'Competition',
+    issuer: 'Innovatexpo',
+    year: '2025',
+  },
+  {
+    name: 'ChatGPT for Everyone',
+    image: '/certificates/image.png',
+    category: 'Course',
+    issuer: 'Edx / OpenAI',
+    year: '2025',
+  },
+  {
+    name: 'Entrepreneurship Challenge 2025',
+    image: '/certificates/Screenshot 2025-11-21 013055.png',
+    category: 'Competition',
+    issuer: 'E-Cell',
+    year: '2025',
+  },
+  {
+    name: 'Fusion 2025 National Hackathon',
+    image: '/certificates/Screenshot 2025-11-21 013248.png',
+    category: 'Hackathon',
+    issuer: 'Fusion National Hackathon',
+    year: '2025',
+  },
+  {
+    name: 'Advanced Prompt Hacking',
+    image: '/certificates/Screenshot 2025-11-21 013436.png',
+    category: 'Course',
+    issuer: 'LearnPrompting',
+    year: '2025',
+  },
+  {
+    name: 'Core Java Essentials',
+    image: '/certificates/Screenshot 2025-11-21 013608.png',
+    category: 'Course',
+    issuer: 'Certification Authority',
+    year: '2024',
+  },
+];
