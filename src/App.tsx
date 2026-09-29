@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ArrowLeft } from 'lucide-react';
 import Navbar, { NavPage } from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -112,7 +113,24 @@ function App() {
       {/* Top Navigation Bar with Certificates, Achievements, Projects options - fixed to viewport */}
       <Navbar currentPage={currentPage} onNavigate={handleNavigate} />
 
-      <div className="relative bg-slate-900 min-h-screen" style={{ scrollBehavior: 'smooth' }}>
+      {/* Fixed Back Button at Top-Left Corner when viewing a specific section */}
+      {currentPage !== 'portfolio' && (
+        <button
+          onClick={() => handleNavigate('portfolio')}
+          className="fixed top-3 sm:top-5 left-3 sm:left-6 z-[99999] inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-slate-950/85 hover:bg-slate-900 border border-white/20 text-gray-200 hover:text-white backdrop-blur-2xl shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 text-xs sm:text-sm font-semibold group cursor-pointer"
+          style={{
+            boxShadow: '0 10px 30px -10px rgba(0,0,0,0.8), 0 0 20px rgba(6, 182, 212, 0.25)',
+          }}
+          title="Back to Full Portfolio"
+          aria-label="Back to Full Portfolio"
+        >
+          <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-cyan-400 group-hover:-translate-x-0.5 transition-transform" />
+          <span className="hidden xs:inline sm:inline">Back to Portfolio</span>
+          <span className="xs:hidden sm:hidden">Back</span>
+        </button>
+      )}
+
+      <div className="relative bg-slate-950 min-h-screen" style={{ scrollBehavior: 'smooth' }}>
         <Particles />
 
         {/* Main Content Area */}
